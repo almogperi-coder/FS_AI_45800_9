@@ -25,7 +25,7 @@ export default function UserCard(props: UserCardProps) {
   const { isLocalTime } = settings
 
   const timeStamp = format(isLocalTime ? new Date(user.registered.date).toLocaleString() : user.registered.date, settings.dateFormat)
-  const { favorites, addFavorite } = useFavoritesContext()
+  const { favorites, addFavorite, removeFavorite } = useFavoritesContext()
 
   const isFavorite = favorites.some(
     favorite => favorite.login.uuid === user.login.uuid
@@ -75,23 +75,23 @@ export default function UserCard(props: UserCardProps) {
         type="button"
         variant="outlined"
         fullWidth
-        disabled={isFavorite}
         startIcon={
           isFavorite ? <FavoriteIcon /> : <FavoriteBorderIcon />
         }
-        onClick={() => addFavorite(user)}
+        onClick={() => {
+          if (isFavorite) {
+            removeFavorite(user)
+            return
+          }
+          addFavorite(user)
+        }}
         sx={{
           borderRadius: "10px",
           textTransform: "none",
           minHeight: 40,
-          "&.Mui-disabled": {
-            color: "primary.main",
-            borderColor: "primary.light",
-            backgroundColor: "action.hover",
-          },
         }}
       >
-        {isFavorite ? "Added to favorites" : "Add to favorites"}
+        {isFavorite ? "Remove from favorites" : "Add to favorites"}
       </Button>
     </article>
   )

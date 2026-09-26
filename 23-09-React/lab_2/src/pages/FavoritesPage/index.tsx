@@ -14,18 +14,18 @@ export default function FavoritesPage() {
         </p>
       </header>
 
-      {favorites.length === 0 && (
+      {favorites.length === 0 ? (
         <p>No favorites yet.</p>
+      ) : (
+        <div className="users-page__grid">
+          {favorites.map(user => (
+            <UserCard
+              key={user.login.uuid}
+              user={user}
+            />
+          ))}
+        </div>
       )}
-
-      <div className="users-page__grid">
-        {favorites.map(user => (
-          <UserCard
-            key={user.login.uuid}
-            user={user}
-          />
-        ))}
-      </div>
     </section>
   )
 }

@@ -4,6 +4,7 @@ import type { SingleUserType } from "../pages/UsersPage/user-type"
 type FavoritesContextValue = {
   favorites: SingleUserType[]
   addFavorite: (user: SingleUserType) => void
+  removeFavorite: (user: SingleUserType) => void
 }
 
 export const FavoritesContext =
@@ -25,8 +26,15 @@ export const FavoritesContext =
         return [...current, user]
       })
     }
+
+    function removeFavorite(user: SingleUserType) {
+      setFavorites(current =>
+        current.filter(favorite => favorite.login.uuid !== user.login.uuid)
+      )
+    }
+
     return (
-      <FavoritesContext.Provider value={{ favorites, addFavorite }}>
+      <FavoritesContext.Provider value={{ favorites, addFavorite, removeFavorite }}>
         {children}
       </FavoritesContext.Provider>
     )
