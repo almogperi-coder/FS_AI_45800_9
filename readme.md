@@ -584,7 +584,7 @@ The format will affect the entire application date presentation.
 # 4-10
 
 ## 1
-
+ - Create new reducer to support the following capabilities: 
 Add a DDL Option-Select into the setting page to select a Format:
 
 - "dd/MMM/yyyy HH:mm"
