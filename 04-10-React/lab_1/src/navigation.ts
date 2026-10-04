@@ -1,5 +1,6 @@
 import AssessmentIcon from '@mui/icons-material/Assessment'
 import DashboardIcon from '@mui/icons-material/Dashboard'
+import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import HomeIcon from '@mui/icons-material/Home'
 import PeopleIcon from '@mui/icons-material/People'
@@ -20,5 +21,6 @@ export const navItems: NavItem[] = [
   { to: '/reports', label: 'Reports', icon: AssessmentIcon },
   { to: '/users', label: 'Users', icon: PeopleIcon },
   { to: '/favorites', label: 'Favorites', icon: FavoriteIcon },
+  { to: '/jokes', label: 'Jokes', icon: EmojiEmotionsIcon },
   { to: '/settings', label: 'Settings', icon: SettingsIcon },
 ]

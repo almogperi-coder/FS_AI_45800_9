@@ -584,9 +584,18 @@ The format will affect the entire application date presentation.
 # 4-10
 
 ## 1
- - Create new reducer to support the following capabilities: 
-Add a DDL Option-Select into the setting page to select a Format:
+
+- Create new reducer to support the following capabilities:
+  Add a DDL Option-Select into the setting page to select a Format:
 
 - "dd/MMM/yyyy HH:mm"
 - "dd/MM/yy HH:mm:ss"
 - "dd-mmm-yyyy HH:mm:ss"
+
+## 2
+
+- redux toolkit + asyncthunk
+- Based on the following API https://dogapi.dog/api/v2/breeds?page[number]=1
+- Support new page that shows the dogs data in table
+- show at least 5 attributes
+- support fetching the data using redux toolkit

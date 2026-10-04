@@ -5,6 +5,7 @@ import { AppProvider } from './context/AppContext'
 import DashboardPage from './pages/DashboardPage'
 import FavoritesPage from './pages/FavoritesPage'
 import HomePage from './pages/HomePage'
+import JokesPage from './pages/JokesPage'
 import NotFoundPage from './pages/NotFoundPage'
 import ReportsPage from './pages/ReportsPage'
 import SettingsPage from './pages/SettingsPage'
@@ -23,6 +24,7 @@ export default function App() {
               <Route path="reports" element={<ReportsPage />} />
               <Route path="users" element={<UsersPage />} />
               <Route path="favorites" element={<FavoritesPage />} />
+              <Route path="jokes" element={<JokesPage />} />
               <Route path="settings" element={<SettingsPage />} />
               <Route path="*" element={<NotFoundPage />} />
             </Route>
