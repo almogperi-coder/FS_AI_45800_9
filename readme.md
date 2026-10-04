@@ -606,3 +606,5 @@ The format will affect the entire application date presentation.
 
 1. Users page
 2. report - only one report that based on the current users data show number of users per country report
+3. users/index - main page with users page
+4. users/report - new report page - and use redux 
