@@ -5,7 +5,7 @@ import Spinner from "../../components/Spinner"
 import UserCard from "../../components/UserCard"
 import UsersMap from "../../components/UsersMap"
 import { useAppContext } from "../../context/AppContext"
-import { useAppDispatch } from "../../store/hooks"
+import { useAppDispatch, useAppSelector } from "../../store/hooks"
 import { addFavorite } from "../../store/favoritesReducer"
 import "./users-page.css"
 import type { SingleUserType } from "./user-type"
@@ -25,8 +25,7 @@ function toErrorMessage(err: unknown) {
 
 export default function UsersPage() {
   const dispatch = useAppDispatch()
-  const { settings } = useAppContext()
-  const { showMap } = settings
+  const showMap = useAppSelector((state) => state.settings.showMap)
   const [usersData, setUsersData] = useState<Array<SingleUserType>>([])
   const [error, setError] = useState("")
   const [isLoading, setIsLoading] = useState(true)

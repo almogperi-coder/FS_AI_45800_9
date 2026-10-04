@@ -7,10 +7,14 @@ import Typography from '@mui/material/Typography'
 import { useAppContext } from '../../context/AppContext'
 import '../page.css'
 import {  Schedule } from '@mui/icons-material'
+import { useAppDispatch, useAppSelector } from '../../store/hooks'
+import { setShowMap } from '../../store/settingsReducer'
 
 export default function SettingsPage() {
   const { settings, setSetting } = useAppContext()
-  const { showMap, isLocalTime } = settings
+  const { isLocalTime } = settings
+  const showMap = useAppSelector((state) => state.settings.showMap)
+  const dispatch = useAppDispatch()
 
   return (
     <section className="page">
@@ -47,7 +51,7 @@ export default function SettingsPage() {
             <Switch
               checked={showMap}
               onChange={(_, checked) => {
-                setSetting('showMap', checked)
+                dispatch(setShowMap(checked))
               }}
               slotProps={{
                 input: { 'aria-label': 'Show users map' },
