@@ -95,7 +95,7 @@ export default function UsersPage() {
       <header className="users-page__header">
         <h1>Users</h1>
         <p className="users-page__subtitle">
-          Click a person to save them in Favorites
+          Click a person to save them in Favorites 
         </p>
       </header>
       <div className="users-page__actions">

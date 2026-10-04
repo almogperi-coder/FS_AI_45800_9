@@ -13,6 +13,7 @@ import ListItemText from '@mui/material/ListItemText'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import MenuIcon from '@mui/icons-material/Menu'
+import RouteErrorBoundary from '../ErrorBoundary'
 import { navItems } from '../../navigation'
 import { useAppContext } from '../../context/AppContext'
 
@@ -64,6 +65,7 @@ function NavigationList({ onNavigate }: NavigationListProps) {
 }
 
 export default function AppShell() {
+
   const [mobileOpen, setMobileOpen] = useState(false)
   const { pathname } = useLocation()
   const current = [...navItems]
@@ -154,7 +156,9 @@ export default function AppShell() {
         }}
       >
         <Toolbar />
-        <Outlet />
+        <RouteErrorBoundary resetOnNavigate>
+          <Outlet />
+        </RouteErrorBoundary>
       </Box>
     </Box>
   )
