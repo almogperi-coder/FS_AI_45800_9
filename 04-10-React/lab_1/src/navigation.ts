@@ -4,6 +4,7 @@ import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import HomeIcon from '@mui/icons-material/Home'
 import PeopleIcon from '@mui/icons-material/People'
+import PetsIcon from '@mui/icons-material/Pets'
 import SettingsIcon from '@mui/icons-material/Settings'
 import type { SvgIconProps } from '@mui/material/SvgIcon'
 import type { ComponentType } from 'react'
@@ -22,5 +23,6 @@ export const navItems: NavItem[] = [
   { to: '/users', label: 'Users', icon: PeopleIcon },
   { to: '/favorites', label: 'Favorites', icon: FavoriteIcon },
   { to: '/jokes', label: 'Jokes', icon: EmojiEmotionsIcon },
+  { to: '/dogs', label: 'Dogs', icon: PetsIcon },
   { to: '/settings', label: 'Settings', icon: SettingsIcon },
 ]

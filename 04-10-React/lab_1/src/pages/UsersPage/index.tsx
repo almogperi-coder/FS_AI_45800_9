@@ -69,6 +69,7 @@ export default function UsersPage() {
         if (cancelled) {
           return
         }
+       
         setUsersData(result)
       } catch (err) {
         if (cancelled) {
