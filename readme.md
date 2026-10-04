@@ -580,3 +580,13 @@ The format will affect the entire application date presentation.
 - Button on each userCard - add to favorite
 - Adding the relevant user into the favorite list
 - showing the favorites users inside the relevant route
+
+# 4-10
+
+## 1
+
+Add a DDL Option-Select into the setting page to select a Format:
+
+- "dd/MMM/yyyy HH:mm"
+- "dd/MM/yy HH:mm:ss"
+- "dd-mmm-yyyy HH:mm:ss"
