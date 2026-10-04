@@ -38,11 +38,13 @@ function toErrorMessage(err: unknown) {
 
 export const loadDogs = createAsyncThunk<
   Awaited<ReturnType<typeof getDogBreedsApi>>,
-  number,
+  number | void,
   { state: RootState; rejectValue: string }
->("dogs/loadDogs", async (page, { rejectWithValue }) => {
+>("dogs/loadDogs", async (page, { getState, rejectWithValue }) => {
+  const pageNumber = typeof page === "number" ? page : getState().dogs.page
+
   try {
-    return await getDogBreedsApi(page)
+    return await getDogBreedsApi(pageNumber)
   } catch (err) {
     return rejectWithValue(toErrorMessage(err))
   }

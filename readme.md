@@ -599,3 +599,10 @@ The format will affect the entire application date presentation.
 - Support new page that shows the dogs data in table
 - show at least 5 attributes
 - support fetching the data using redux toolkit
+
+## 3
+
+- Change Users Page to include 2 pages
+
+1. Users page
+2. report - only one report that based on the current users data show number of users per country report

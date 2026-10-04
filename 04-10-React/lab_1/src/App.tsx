@@ -3,7 +3,9 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import AppShell from './components/AppShell'
 import { AppProvider } from './context/AppContext'
 import DashboardPage from './pages/DashboardPage'
+import DogsLayout from './pages/DogsPage/DogsLayout'
 import DogsPage from './pages/DogsPage'
+import DogsReportsPage from './pages/DogsPage/DogsReportsPage'
 import FavoritesPage from './pages/FavoritesPage'
 import HomePage from './pages/HomePage'
 import JokesPage from './pages/JokesPage'
@@ -26,7 +28,10 @@ export default function App() {
               <Route path="users" element={<UsersPage />} />
               <Route path="favorites" element={<FavoritesPage />} />
               <Route path="jokes" element={<JokesPage />} />
-              <Route path="dogs" element={<DogsPage />} />
+              <Route path="dogs" element={<DogsLayout />}>
+                <Route index element={<DogsPage />} />
+                <Route path="reports" element={<DogsReportsPage />} />
+              </Route>
               <Route path="settings" element={<SettingsPage />} />
               <Route path="*" element={<NotFoundPage />} />
             </Route>

@@ -1,6 +1,5 @@
 import Avatar from "@mui/material/Avatar"
 import Chip from "@mui/material/Chip"
-import LinearProgress from "@mui/material/LinearProgress"
 import Paper from "@mui/material/Paper"
 import Table from "@mui/material/Table"
 import TableBody from "@mui/material/TableBody"
@@ -9,11 +8,8 @@ import TableContainer from "@mui/material/TableContainer"
 import TableHead from "@mui/material/TableHead"
 import TablePagination from "@mui/material/TablePagination"
 import TableRow from "@mui/material/TableRow"
-import { useEffect } from "react"
-import ErrorMessage from "../../components/ErrorMessage"
-import Spinner from "../../components/Spinner"
 import { useAppDispatch, useAppSelector } from "../../store/hooks"
-import { clearDogsError, loadDogs } from "../../store/dogsReducer"
+import { loadDogs } from "../../store/dogsReducer"
 import type { DogBreed, DogMeasure } from "./dog-type"
 import { DOGS_PAGE_SIZE } from "./dogs-api"
 import "./dogs-page.css"
@@ -50,36 +46,21 @@ function breedPhoto(breed: DogBreed) {
 
 export default function DogsPage() {
   const dispatch = useAppDispatch()
-  const { breeds, status, error, page, totalRecords } = useAppSelector((state) => state.dogs)
+  const { breeds, status, page, totalRecords } = useAppSelector((state) => state.dogs)
   const isPending = status === "idle" || status === "pending"
   const showTable = breeds.length > 0
-
-  useEffect(() => {
-    dispatch(loadDogs(1))
-  }, [dispatch])
 
   return (
     <section className="dogs-page" aria-busy={isPending}>
       <header className="dogs-page__header">
         <h1>Dogs</h1>
         <p className="dogs-page__subtitle">
-          Dog breeds from the Dog API, loaded with a Redux async thunk.
+          Dog breeds from the Dog API. Reports uses this same Redux list.
         </p>
       </header>
 
-      <ErrorMessage
-        title="Could not load dog breeds"
-        message={status === "failed" ? error : ""}
-        onDismiss={() => {
-          dispatch(clearDogsError())
-        }}
-      />
-
-      {isPending && !showTable && <Spinner message="Loading dog breeds…" />}
-
       {showTable && (
         <Paper variant="outlined" sx={{ borderRadius: 2, overflow: "hidden" }}>
-          {isPending && <LinearProgress />}
           <TableContainer sx={{ maxHeight: "calc(100vh - 300px)" }}>
             <Table stickyHeader aria-label="Dog breeds" sx={{ minWidth: 1080 }}>
               <TableHead>

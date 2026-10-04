@@ -66,7 +66,15 @@ function NavigationList({ onNavigate }: NavigationListProps) {
 export default function AppShell() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const { pathname } = useLocation()
-  const current = navItems.find((item) => item.to === pathname)
+  const current = [...navItems]
+    .sort((a, b) => b.to.length - a.to.length)
+    .find((item) => {
+      if (item.to === '/') {
+        return pathname === '/'
+      }
+
+      return pathname === item.to || pathname.startsWith(`${item.to}/`)
+    })
   const title = current?.label ?? 'Page not found'
 
   const closeMobileDrawer = () => {

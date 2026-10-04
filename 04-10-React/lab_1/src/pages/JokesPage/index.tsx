@@ -11,6 +11,7 @@ export default function JokesPage() {
   const isPending = status === "idle" || status === "pending"
 
   useEffect(() => {
+    if(jokes.length > 0) return;
     dispatch(loadJokes())
   }, [dispatch])
 
