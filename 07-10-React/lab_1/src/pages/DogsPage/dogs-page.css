@@ -12,7 +12,22 @@
 }
 
 .dogs-page__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
   margin-bottom: 20px;
+}
+
+.dogs-page__intro {
+  flex: 1 1 280px;
+}
+
+.dogs-page__columns {
+  flex: 1 1 280px;
+  max-width: 420px;
+  margin-left: auto;
 }
 
 .dogs-page__header h1 {

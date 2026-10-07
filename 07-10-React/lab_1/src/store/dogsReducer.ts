@@ -1,5 +1,11 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { createAsyncThunk, createSlice, type PayloadAction } from "@reduxjs/toolkit"
 import axios from "axios"
+import {
+  normalizeVisibleDogColumns,
+  readVisibleDogColumns,
+  writeVisibleDogColumns,
+  type DogColumnId,
+} from "../pages/DogsPage/dog-columns"
 import type { DogBreed } from "../pages/DogsPage/dog-type"
 import { getDogBreedsApi } from "../pages/DogsPage/dogs-api"
 import type { RootState } from "./store"
@@ -13,6 +19,7 @@ export type DogsState = {
   page: number
   totalRecords: number
   requestId: string
+  visibleColumns: DogColumnId[]
 }
 
 const initialState: DogsState = {
@@ -22,6 +29,7 @@ const initialState: DogsState = {
   page: 1,
   totalRecords: 0,
   requestId: "",
+  visibleColumns: readVisibleDogColumns(),
 }
 
 function toErrorMessage(err: unknown) {
@@ -57,6 +65,15 @@ const dogsSlice = createSlice({
     clearDogsError(state) {
       state.error = ""
     },
+    setVisibleColumns(state, action: PayloadAction<readonly string[]>) {
+      const next = normalizeVisibleDogColumns(action.payload)
+      if (next.length === 0) {
+        return
+      }
+
+      state.visibleColumns = next
+      writeVisibleDogColumns(next)
+    },
   },
   extraReducers(builder) {
     builder
@@ -88,5 +105,5 @@ const dogsSlice = createSlice({
   },
 })
 
-export const { clearDogsError } = dogsSlice.actions
+export const { clearDogsError, setVisibleColumns } = dogsSlice.actions
 export const dogsReducer = dogsSlice.reducer
