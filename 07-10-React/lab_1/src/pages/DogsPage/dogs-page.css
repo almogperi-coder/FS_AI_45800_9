@@ -24,10 +24,55 @@
   flex: 1 1 280px;
 }
 
-.dogs-page__columns {
-  flex: 1 1 280px;
-  max-width: 420px;
+.dogs-page__columns-row {
+  display: flex;
+  flex: 1 1 320px;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  max-width: 560px;
   margin-left: auto;
+}
+
+.dogs-page__columns {
+  flex: 1 1 220px;
+  max-width: 420px;
+}
+
+.dogs-page__filters {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.dogs-page__filter-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.dogs-page__filter-field {
+  flex: 1 1 180px;
+  min-width: 180px;
+  max-width: 280px;
+}
+
+.dogs-page__filter-query {
+  flex: 2 1 240px;
+  max-width: 420px;
+}
+
+.dogs-page__filter-reset {
+  flex: 0 0 auto;
+  margin-left: auto;
+}
+
+.dogs-page__filter-summary,
+.dogs-page__filter-empty {
+  color: var(--text);
+  font-size: 14px;
 }
 
 .dogs-page__header h1 {

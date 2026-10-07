@@ -1,4 +1,5 @@
 import Avatar from "@mui/material/Avatar"
+import Button from "@mui/material/Button"
 import Checkbox from "@mui/material/Checkbox"
 import Chip from "@mui/material/Chip"
 import FormControl from "@mui/material/FormControl"
@@ -8,6 +9,7 @@ import MenuItem from "@mui/material/MenuItem"
 import OutlinedInput from "@mui/material/OutlinedInput"
 import Paper from "@mui/material/Paper"
 import Select, { type SelectChangeEvent } from "@mui/material/Select"
+import TextField from "@mui/material/TextField"
 import Table from "@mui/material/Table"
 import TableBody from "@mui/material/TableBody"
 import TableCell from "@mui/material/TableCell"
@@ -21,8 +23,17 @@ import {
   DOG_COLUMNS,
   type DogColumnId,
 } from "./dog-columns"
+import { useMemo, useState } from "react"
 import { useAppDispatch, useAppSelector } from "../../store/hooks"
 import { loadDogs, setVisibleColumns } from "../../store/dogsReducer"
+import {
+  DOG_TEXT_FILTER_ATTRIBUTES,
+  dogTypeValue,
+  filterDogBreeds,
+  hypoallergenicValue,
+  uniqueSorted,
+  type DogTextFilterAttribute,
+} from "./dog-filters"
 import type { DogBreed, DogMeasure } from "./dog-type"
 import { DOGS_PAGE_SIZE } from "./dogs-api"
 import "./dogs-page.css"
@@ -115,6 +126,81 @@ function DogCell({ columnId, breed }: { columnId: DogColumnId; breed: DogBreed }
   }
 }
 
+function displayFilterLabel(value: string) {
+  if (!value) {
+    return value
+  }
+
+  return value.charAt(0).toUpperCase() + value.slice(1)
+}
+
+function ColumnsResetButton() {
+  const dispatch = useAppDispatch()
+  const visibleColumns = useAppSelector((state) => state.dogs.visibleColumns)
+  const isDefault =
+    visibleColumns.length === DOG_COLUMN_IDS.length &&
+    visibleColumns.every((id, index) => id === DOG_COLUMN_IDS[index])
+
+  return (
+    <Button
+      variant="outlined"
+      disabled={isDefault}
+      onClick={() => {
+        dispatch(setVisibleColumns(DOG_COLUMN_IDS))
+      }}
+      sx={{ height: 40, whiteSpace: "nowrap" }}
+    >
+      Reset columns
+    </Button>
+  )
+}
+
+function MultiValueSelect({
+  id,
+  label,
+  value,
+  options,
+  emptySummary,
+  onChange,
+}: {
+  id: string
+  label: string
+  value: string[]
+  options: string[]
+  emptySummary: string
+  onChange: (next: string[]) => void
+}) {
+  const labelId = `${id}-label`
+  const summary = value.length === 0 ? emptySummary : value.map(displayFilterLabel).join(", ")
+
+  const handleChange = (event: SelectChangeEvent<string[]>) => {
+    const next = event.target.value
+    onChange(typeof next === "string" ? next.split(",") : next)
+  }
+
+  return (
+    <FormControl className="dogs-page__filter-field" size="small">
+      <InputLabel id={labelId}>{label}</InputLabel>
+      <Select
+        labelId={labelId}
+        id={id}
+        multiple
+        value={value}
+        onChange={handleChange}
+        input={<OutlinedInput label={label} />}
+        renderValue={() => summary}
+      >
+        {options.map((option) => (
+          <MenuItem key={option} value={option}>
+            <Checkbox checked={value.includes(option)} />
+            <ListItemText primary={displayFilterLabel(option)} />
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
+  )
+}
+
 function ColumnsSelect() {
   const dispatch = useAppDispatch()
   const visibleColumns = useAppSelector((state) => state.dogs.visibleColumns)
@@ -163,9 +249,34 @@ export default function DogsPage() {
   const { breeds, status, page, totalRecords, visibleColumns } = useAppSelector(
     (state) => state.dogs,
   )
+  const [attribute, setAttribute] = useState<DogTextFilterAttribute>("name")
+  const [query, setQuery] = useState("")
+  const [dogTypes, setDogTypes] = useState<string[]>([])
+  const [hypoallergenic, setHypoallergenic] = useState<string[]>([])
   const isPending = status === "idle" || status === "pending"
   const showTable = breeds.length > 0
   const columns = DOG_COLUMNS.filter((column) => visibleColumns.includes(column.id))
+  const filteredBreeds = useMemo(
+    () => filterDogBreeds(breeds, { attribute, query, dogTypes, hypoallergenic }),
+    [attribute, breeds, dogTypes, hypoallergenic, query],
+  )
+  const dogTypeOptions = useMemo(
+    () => uniqueSorted([...breeds.map(dogTypeValue), ...dogTypes]),
+    [breeds, dogTypes],
+  )
+  const hypoallergenicOptions = useMemo(
+    () => uniqueSorted([...breeds.map(hypoallergenicValue), ...hypoallergenic]),
+    [breeds, hypoallergenic],
+  )
+  const filtersActive = query.trim() !== "" || dogTypes.length > 0 || hypoallergenic.length > 0
+  const filtersChanged = filtersActive || attribute !== "name"
+
+  const resetFilters = () => {
+    setAttribute("name")
+    setQuery("")
+    setDogTypes([])
+    setHypoallergenic([])
+  }
 
   return (
     <section className="dogs-page" aria-busy={isPending}>
@@ -176,8 +287,78 @@ export default function DogsPage() {
             Dog breeds from the Dog API. Reports uses this same Redux list.
           </p>
         </div>
-        <ColumnsSelect />
+        <div className="dogs-page__columns-row">
+          <ColumnsSelect />
+          <ColumnsResetButton />
+        </div>
       </header>
+
+      {showTable && (
+        <div className="dogs-page__filters">
+          <div className="dogs-page__filter-line">
+            <FormControl className="dogs-page__filter-field" size="small">
+              <InputLabel id="dogs-filter-attribute-label">Attribute</InputLabel>
+              <Select
+                labelId="dogs-filter-attribute-label"
+                id="dogs-filter-attribute"
+                value={attribute}
+                label="Attribute"
+                onChange={(event) => {
+                  setAttribute(event.target.value as DogTextFilterAttribute)
+                }}
+              >
+                {DOG_TEXT_FILTER_ATTRIBUTES.map((option) => (
+                  <MenuItem key={option.id} value={option.id}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <TextField
+              className="dogs-page__filter-query"
+              size="small"
+              label="Contains"
+              placeholder="For example, a dog name"
+              value={query}
+              onChange={(event) => {
+                setQuery(event.target.value)
+              }}
+            />
+          </div>
+          <div className="dogs-page__filter-line">
+            <MultiValueSelect
+              id="dogs-filter-type"
+              label="Dog type"
+              value={dogTypes}
+              options={dogTypeOptions}
+              emptySummary="All types"
+              onChange={setDogTypes}
+            />
+            <MultiValueSelect
+              id="dogs-filter-hypoallergenic"
+              label="Hypoallergenic"
+              value={hypoallergenic}
+              options={hypoallergenicOptions}
+              emptySummary="All"
+              onChange={setHypoallergenic}
+            />
+            <Button
+              className="dogs-page__filter-reset"
+              variant="outlined"
+              disabled={!filtersChanged}
+              onClick={resetFilters}
+              sx={{ height: 40, whiteSpace: "nowrap" }}
+            >
+              Reset filters
+            </Button>
+          </div>
+          {filtersActive && (
+            <p className="dogs-page__filter-summary">
+              Showing {filteredBreeds.length} of {breeds.length} breeds on this page
+            </p>
+          )}
+        </div>
+      )}
 
       {showTable && (
         <Paper variant="outlined" sx={{ borderRadius: 2, overflow: "hidden" }}>
@@ -193,13 +374,20 @@ export default function DogsPage() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {breeds.map((breed) => (
+                {filteredBreeds.map((breed) => (
                   <TableRow key={breed.id} hover>
                     {columns.map((column) => (
                       <DogCell key={column.id} columnId={column.id} breed={breed} />
                     ))}
                   </TableRow>
                 ))}
+                {filteredBreeds.length === 0 && (
+                  <TableRow>
+                    <TableCell colSpan={columns.length}>
+                      <p className="dogs-page__filter-empty">No breeds match these filters.</p>
+                    </TableCell>
+                  </TableRow>
+                )}
               </TableBody>
             </Table>
           </TableContainer>

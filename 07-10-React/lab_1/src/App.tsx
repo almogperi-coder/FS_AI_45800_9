@@ -10,6 +10,8 @@ import DogsReportsPage from './pages/DogsPage/DogsReportsPage'
 import FavoritesPage from './pages/FavoritesPage'
 import HomePage from './pages/HomePage'
 import JokesPage from './pages/JokesPage'
+import LoginPageRef from './pages/LoginPageRef'
+import LoginPageState from './pages/LoginPageState'
 import NotFoundPage from './pages/NotFoundPage'
 import ReportsPage from './pages/ReportsPage'
 import SettingsPage from './pages/SettingsPage'
@@ -25,6 +27,8 @@ export default function App() {
             <Routes>
               <Route path="/" element={<AppShell />}>
                 <Route index element={<HomePage />} />
+                <Route path="login-state" element={<LoginPageState />} />
+                <Route path="login-ref" element={<LoginPageRef />} />
                 <Route path="dashboard" element={<DashboardPage />} />
                 <Route path="reports" element={<ReportsPage />} />
                 <Route path="users" element={<UsersPage />} />

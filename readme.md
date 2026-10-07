@@ -615,5 +615,10 @@ The format will affect the entire application date presentation.
 
 1. At the Dogs Page Support selectable columns in the table.
 2. the selected columns should be in the global state, then localStorage consistent
-3. reset button - to reset selection 
-4. Filter - by dog name, on change input, the data table will be changed 
+3. reset button - to reset selection
+4. Filter - by dog name, on change input, the data table will be changed
+
+## 2
+
+1. Registration page, userName, password, phone, gender, company
+2. Registration page with input validaitons + useRef
