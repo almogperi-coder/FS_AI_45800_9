@@ -1,0 +1,55 @@
+.dogs-page {
+  --text: #6b6375;
+  --text-h: #08060d;
+
+  width: 100%;
+  margin: 0 auto 24px;
+  text-align: left;
+}
+
+.dogs-page p {
+  margin: 0;
+}
+
+.dogs-page__header {
+  margin-bottom: 20px;
+}
+
+.dogs-page__header h1 {
+  margin: 0 0 8px;
+  font-size: 2rem;
+  font-weight: 500;
+  line-height: 1.2;
+  color: var(--text-h);
+}
+
+.dogs-page__subtitle {
+  color: var(--text);
+  font-size: 16px;
+}
+
+.dogs-page__description {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  max-width: 280px;
+  line-height: 1.4;
+}
+
+.dogs-page__empty {
+  padding: 28px 20px;
+  border: 1px dashed #e5e4e7;
+  border-radius: 14px;
+  color: var(--text);
+  background: #fff;
+}
+
+.dogs-page__photo {
+  display: block;
+  width: 72px;
+  height: 56px;
+  object-fit: cover;
+  border-radius: 8px;
+  background: #f4f3ec;
+}
