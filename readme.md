@@ -608,3 +608,10 @@ The format will affect the entire application date presentation.
 2. report - only one report that based on the current users data show number of users per country report
 3. users/index - main page with users page
 4. users/report - new report page - and use redux 
+
+
+
+
+## 4 
+1. At the Dogs Page Support selectable columns in the table.
+2. the selected columns should be in the global state, then localStorage consistent
